@@ -268,7 +268,7 @@ class LaserTagMain:
             else:
                 messagebox.showerror("Error", "No action display running.")
         else:
-            if buildScreenClosed:
+            if self.buildScreenClosed:
                 self.build_interface()
             else:
                 self.build_frame.tkraise()
