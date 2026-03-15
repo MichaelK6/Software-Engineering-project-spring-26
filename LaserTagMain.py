@@ -193,8 +193,8 @@ class LaserTagMain:
             except Exception as e:
                 print("UDP error:", e)
                 
-        self.root.withdraw()
-        self.buildScreenClosed = True
+        #self.root.withdraw()
+        #self.buildScreenClosed = True
 
         countdown_timer(
             self.root,
