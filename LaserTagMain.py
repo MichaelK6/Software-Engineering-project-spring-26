@@ -25,7 +25,7 @@ class LaserTagMain:
         self.root.configure(bg="black")
         self.root.geometry("1000x700")
 
-        self.buildScreen = False;
+        self.buildScreen = False
         self.red_team = []
         self.green_team = []
         self.build_interface()
@@ -42,12 +42,15 @@ class LaserTagMain:
 
     def build_interface(self):
 
-        title = tk.Label(self.root, text="Edit Current Game",
+        self.build_frame = tk.Frame(self.root, bg="black")
+        self.build_frame.place(relwidth=.75, relheight=.525)
+        
+        title = tk.Label(self.build_frame, text="Edit Current Game",
                          fg="cyan", bg="black",
                          font=("Arial", 20))
         title.pack(pady=10)
 
-        main_frame = tk.Frame(self.root, bg="black")
+        main_frame = tk.Frame(self.build_frame, bg="black")
         main_frame.pack()
 
         red_frame = tk.Frame(main_frame, bg="#330000")
@@ -89,7 +92,7 @@ class LaserTagMain:
 
             self.green_entries.append((gid, gcode))
 
-        bottom = tk.Frame(self.root, bg="black")
+        bottom = tk.Frame(self.build_frame, bg="black")
         bottom.pack(pady=20)
 
         buttons = [
@@ -107,6 +110,7 @@ class LaserTagMain:
             b.pack(side="left", padx=5)
 
         self.buildScreen = True
+        self.build_frame.tkraise()
 
     def collect_players(self):
 
@@ -195,12 +199,12 @@ class LaserTagMain:
 
     def show_play_action_screen(self, red_team, green_team):
 
-        game_window = tk.Toplevel(self.root)
-        game_window.title("Current Game Action")
-        game_window.configure(bg="black")
-        game_window.geometry("900x600")
+        self.game_window = tk.Toplevel(self.root)
+        self.game_window.title("Current Game Action")
+        self.game_window.configure(bg="black")
+        self.game_window.geometry("900x600")
 
-        score_frame = tk.Frame(game_window, bg="black")
+        score_frame = tk.Frame(self.game_window, bg="black")
         score_frame.pack(pady=10)
 
         red_frame = tk.Frame(score_frame, bg="black")
@@ -221,7 +225,7 @@ class LaserTagMain:
         for p in green_team:
             tk.Label(green_frame, text=p.get_player_name(), fg="white", bg="black").pack()
 
-        action_frame = tk.Frame(game_window, bg="black")
+        action_frame = tk.Frame(self.game_window, bg="black")
         action_frame.pack(pady=20)
 
         tk.Label(action_frame, text="Current Game Action",
@@ -234,7 +238,7 @@ class LaserTagMain:
                              fg="white")
         action_log.pack()
 
-        timer_label = tk.Label(game_window,
+        timer_label = tk.Label(self.game_window,
                                text="Time Remaining: 6:00",
                                fg="white",
                                bg="black",
@@ -251,9 +255,11 @@ class LaserTagMain:
 
     def display_switch(self):
         if (self.buildScreen):
-            self.show_play_action_screen(self.red_team, self.green_team)
+            self.game_window = tk.TopLevel(self.root)
+            self.buildScreen = False
         else:
-            self.build_interface()
+            self.build_frame.tkraise()
+            self.buildScreen = True
 
     def view_game(self):
         print("View Game")
