@@ -26,8 +26,8 @@ class LaserTagMain:
         self.root.geometry("1000x700")
 
         self.buildScreen = False
-        self.red_team = []
-        self.green_team = []
+        self.buildScreenClosed = False
+        self.gameStarted = False
         self.build_interface()
 
         self.root.bind("<F1>", lambda e: self.edit_game())
@@ -172,14 +172,18 @@ class LaserTagMain:
             messagebox.showerror("Error", "No players entered.")
             return
 
-        # red_team = []
-        # green_team = []
+        if buildScreenClosed:
+            messagebox.showerror("Error", "Game already running.")
+            return
+
+        red_team = []
+        green_team = []
 
         for p in players:
             if p.team_code == 1:
-                self.red_team.append(p)
+                red_team.append(p)
             else:
-                self.green_team.append(p)
+                green_team.append(p)
 
         for p in players:
             try:
@@ -190,12 +194,15 @@ class LaserTagMain:
                 print("UDP error:", e)
                 
         self.root.withdraw()
+        self.buildScreenClosed = True
 
         countdown_timer(
             self.root,
             30,
-            lambda: self.show_play_action_screen(self.red_team, self.green_team)
+            lambda: self.show_play_action_screen(red_team, green_team)
         )
+        
+        self.gameStarted = True
 
     def show_play_action_screen(self, red_team, green_team):
 
@@ -255,11 +262,17 @@ class LaserTagMain:
 
     def display_switch(self):
         if (self.buildScreen):
-            self.game_window = tk.TopLevel(self.root)
-            self.buildScreen = False
+            if self.gameStarted:
+                self.game_window.tkraise()
+                self.buildScreen = False
+            else
+                messagebox.showerror("Error", "No action display running.")
         else:
-            self.build_frame.tkraise()
-            self.buildScreen = True
+            if buildScreenClosed:
+                self.build_interface()
+            else
+                self.build_frame.tkraise()
+                self.buildScreen = True
 
     def view_game(self):
         print("View Game")
