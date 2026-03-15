@@ -172,7 +172,7 @@ class LaserTagMain:
             messagebox.showerror("Error", "No players entered.")
             return
 
-        if buildScreenClosed:
+        if self.buildScreenClosed:
             messagebox.showerror("Error", "Game already running.")
             return
 
