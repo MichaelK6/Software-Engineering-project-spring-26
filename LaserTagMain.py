@@ -293,7 +293,7 @@ class LaserTagMain:
             gid.delete(0, tk.END)
             gcode.delete(0, tk.END)
 
-    def enter_hid(playerName):
+    def enter_hid(self, playerName):
         result = [None]  
         dialog = tk.Toplevel()
         dialog.title("Input")
