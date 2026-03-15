@@ -265,12 +265,12 @@ class LaserTagMain:
             if self.gameStarted:
                 self.game_window.tkraise()
                 self.buildScreen = False
-            else
+            else:
                 messagebox.showerror("Error", "No action display running.")
         else:
             if buildScreenClosed:
                 self.build_interface()
-            else
+            else:
                 self.build_frame.tkraise()
                 self.buildScreen = True
 
