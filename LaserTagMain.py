@@ -186,6 +186,9 @@ class LaserTagMain:
                 green_team.append(p)
 
         for p in players:
+            hid = enter_hid(p.code)
+            if hid is not None:
+                print(f"Hardware ID for "+p.code": {hid}")
             try:
                 self.udp_connection.send_to(p.get_player_num())
                 response = self.udp_connection.recv_from()
@@ -289,6 +292,47 @@ class LaserTagMain:
         for gid, gcode in self.green_entries:
             gid.delete(0, tk.END)
             gcode.delete(0, tk.END)
+
+    def enter_hid(playerName):
+        result = [None]  
+        dialog = tk.Toplevel()
+        dialog.title("Input")
+        dialog.configure(bg="black")
+        dialog.geometry("300x150")
+        dialog.grab_set()  
+        dialog.resizable(False, False)
+        
+        dialog.update_idletasks()
+        screen_w = dialog.winfo_screenwidth()
+        screen_h = dialog.winfo_screenheight()
+        x = (screen_w // 2) - 150
+        y = (screen_h // 2) - 75
+        dialog.geometry(f"+{x}+{y}")
+    
+        tk.Label(dialog, text="Enter the hardware ID for: "+playerName, fg="cyan", bg="black",
+                 font=("Arial", 12)).pack(pady=15)
+    
+        entry = tk.Entry(dialog, width=20, font=("Arial", 12),
+                         justify="center")
+        entry.pack()
+        entry.focus_set()  # Auto-focus the entry box
+    
+        def submit():
+            try:
+                result[0] = int(entry.get())
+                dialog.destroy()
+            except ValueError:
+                messagebox.showerror("Invalid Input", "Please enter a valid integer.", parent=dialog)
+                entry.delete(0, tk.END)
+    
+        def on_enter(event):
+            submit()
+    
+        entry.bind("<Return>", on_enter)  # Allow Enter key to submit
+        tk.Button(dialog, text="OK", width=10, command=submit).pack(pady=10)
+    
+        dialog.wait_window()  # Wait until dialog closes before returning
+        return result[0]
 
     def show_splash_screen(self, image_path):
 
