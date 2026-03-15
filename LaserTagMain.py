@@ -43,7 +43,7 @@ class LaserTagMain:
     def build_interface(self):
 
         self.build_frame = tk.Frame(self.root, bg="black")
-        self.build_frame.place(relwidth=.75, relheight=.525)
+        self.build_frame.place(relwidth=1, relheight=1)
         
         title = tk.Label(self.build_frame, text="Edit Current Game",
                          fg="cyan", bg="black",
