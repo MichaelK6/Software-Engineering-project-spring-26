@@ -186,7 +186,7 @@ class LaserTagMain:
                 green_team.append(p)
 
         for p in players:
-            hid = enter_hid(p.code)
+            hid = self.enter_hid(p.code)
             if hid is not None:
                 print(f"Hardware ID for "+p.code+": {hid}")
             try:
