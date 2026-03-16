@@ -192,11 +192,10 @@ class LaserTagMain:
             try:
                 self.udp_connection.send_to(p.get_player_num())
                 response = self.udp_connection.recv_from()
-                #print("Equipment code:", response) --Removed from past sprint
             except Exception as e:
                 print("UDP error:", e)
                 
-        #self.root.withdraw()
+        self.root.withdraw()
         #self.buildScreenClosed = True
 
         countdown_timer(
@@ -204,6 +203,29 @@ class LaserTagMain:
             30,
             lambda: self.show_play_action_screen(red_team, green_team)
         )
+        
+        self.gameStarted = True
+
+    def start_game_f5(self):
+
+        players = self.collect_players()
+
+        if self.buildScreenClosed:
+            messagebox.showerror("Error", "Game already running.")
+            return
+
+        red_team = []
+        green_team = []
+
+        for p in players:
+            if p.team_code == 1:
+                red_team.append(p)
+            else:
+                green_team.append(p)
+                
+        self.root.withdraw()
+        #self.buildScreenClosed = True
+        self.show_play_action_screen(red_team, green_team)
         
         self.gameStarted = True
 
@@ -265,17 +287,11 @@ class LaserTagMain:
 
     def display_switch(self):
         if (self.buildScreen):
-            if self.gameStarted:
-                self.game_window.tkraise()
-                self.buildScreen = False
-            else:
-                messagebox.showerror("Error", "No action display running.")
+            self.root.withdraw()
+            self.start_game_f5()
         else:
-            if self.buildScreenClosed:
-                self.build_interface()
-            else:
-                self.build_frame.tkraise()
-                self.buildScreen = True
+            self.root.withdraw()
+            self.build_interface()
 
     def view_game(self):
         print("View Game")
