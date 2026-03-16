@@ -223,7 +223,7 @@ class LaserTagMain:
             else:
                 green_team.append(p)
                 
-        self.root.withdraw()
+        #self.root.withdraw()
         #self.buildScreenClosed = True
         self.show_play_action_screen(red_team, green_team)
         
