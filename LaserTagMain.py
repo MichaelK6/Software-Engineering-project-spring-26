@@ -286,6 +286,7 @@ class LaserTagMain:
         print("Game Parameters")
 
     def display_switch(self):
+        print(f"F5 pressed, buildScreen: {buildScreen}")
         if (self.buildScreen):
             self.root.withdraw()
             self.start_game_f5()
