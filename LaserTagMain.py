@@ -235,6 +235,7 @@ class LaserTagMain:
         self.game_window.title("Current Game Action")
         self.game_window.configure(bg="black")
         self.game_window.geometry("900x600")
+        self.game_window.bind("<F5>", lambda e: self.display_switch()) #Ensures f5 key still works
 
         score_frame = tk.Frame(self.game_window, bg="black")
         score_frame.pack(pady=10)
@@ -286,14 +287,15 @@ class LaserTagMain:
         print("Game Parameters")
 
     def display_switch(self):
-        print(f"F5 pressed, buildScreen: {self.buildScreen}")
-        if (self.buildScreen):
+        if self.buildScreen:
             self.root.withdraw()
             self.start_game_f5()
             self.buildScreen = False
         else:
-            self.root.withdraw()
-            self.build_interface()
+            if hasattr(self, 'game_window') and self.game_window.winfo_exists():
+                self.game_window.withdraw()
+            self.root.deiconify()      
+            self.build_frame.tkraise() 
             self.buildScreen = True
 
     def view_game(self):
