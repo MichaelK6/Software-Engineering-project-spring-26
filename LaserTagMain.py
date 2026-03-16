@@ -289,9 +289,11 @@ class LaserTagMain:
         if (self.buildScreen):
             self.root.withdraw()
             self.start_game_f5()
+            self.buildScreen = False
         else:
             self.root.withdraw()
             self.build_interface()
+            self.buildScreen = True
 
     def view_game(self):
         print("View Game")
